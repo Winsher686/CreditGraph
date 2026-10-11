@@ -1,0 +1,50 @@
+[project]
+name = "creditgraph"
+version = "1.0.0"
+description = "A LangGraph-orchestrated financial credit approval workflow with human-in-the-loop review"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "langgraph",
+    "langchain-core",
+    "langgraph-checkpoint-sqlite",
+    "aiosqlite",
+    "fastapi",
+    "uvicorn[standard]",
+    "python-multipart",
+    "pypdf",
+    "python-dotenv",
+]
+
+[project.optional-dependencies]
+openai = ["langchain-openai"]
+
+[project.scripts]
+creditgraph = "creditgraph.interfaces.cli:main"
+creditgraph-demo = "creditgraph.interfaces.demo:main"
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "pytest-asyncio>=0.24",
+    "ruff>=0.6",
+    "httpx>=0.27",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/creditgraph"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "UP", "B"]
